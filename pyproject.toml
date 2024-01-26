@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "main-py"
+version = "0.1.0"
+description = ""
+authors = ["DajanaD <117541907+DajanaD@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "main"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiosqlite = "^0.19.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
