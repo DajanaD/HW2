@@ -167,6 +167,8 @@ class Controller(cmd.Cmd):
 exit_words = ["good bye", "close", "exit", "bye"]
 
 class Note(ABC):
+    def __init__(self, notes):
+        self.notes = notes
     @abstractmethod
     def handler(self)-> None:
         pass
@@ -174,7 +176,7 @@ class Note(ABC):
 
 class AddNote(Note):
     @staticmethod
-    def handler(notes, name, title):
+    def handler(notes:Note, name, title):
         notes[name] = title
         return f"Note added: {name}, {title}"
 
@@ -225,7 +227,7 @@ def get_note_by_name(self, name):
         return f"Note for {name} not found."
     
 book = AddressBook()
-note_actions = NoteActions()
+
 def hello():
     return "How can I help you?"
 
@@ -250,7 +252,7 @@ def main():
             john.edit_phone(new_text)
         elif re.search(r'phone', s):
             new_text = s.replace("phone ", "").split(" ")
-            found_phone =john.find_phone(new_text[1])
+            john.find_phone(new_text[1])
         elif re.search(r'show all', s):  
             for name, record in book.data.items():
                 print(record)
@@ -258,15 +260,18 @@ def main():
             first_split = s.split(', ')
             note_name = first_split[0].split()[1]
             title = first_split[1]
-            return note_actions.add_note(self.notes, note_name, title)
+            add_note = AddNote()
+            return add_note(self.notes, note_name, title)
         elif s.lower().startswith('edit-not'):
             edit_split = s.split(', ')
             note_name = edit_split[0].split()[1]
             new_title = edit_split[1]
-            return note_actions.edit_note(self.notes, note_name, new_title)
+            edit_note = EditNote()
+            return edit_note(self.notes, note_name, new_title)
         elif s.lower().startswith('delete-not'):
             name_to_delete = s.split(' ')[1]
-            return note_actions.delete_note(self.notes, name_to_delete)
+            delete_note = DeleteNote()
+            return delete_note(self.notes, name_to_delete)
         elif s.lower().startswith('get '):
             name_to_get = s.split(' ')[1]
             return self.get_note_by_name(name_to_get)
