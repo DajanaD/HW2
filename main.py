@@ -6,7 +6,7 @@ import sys
 import re
 import os
 from abc import ABC, abstractmethod
-
+from flask import Flask
 
 
 
@@ -279,6 +279,14 @@ def main():
         elif s:
             print('No command...')
 
-if __name__ == "__main__":
+            
+app = Flask(__name__)
 
-    main()
+
+@app.route('/')
+def comand():
+    return main()
+
+
+if __name__ == "__main__":
+    app.run(debug=False, host='0.0.0.0')
